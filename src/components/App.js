@@ -1,40 +1,14 @@
-import avatarLoaderGif from "./images/avatar-loader.gif";
+import Header from "./Header";
+import Main from "./Main";
+import Footer from "./Footer";
 
 function App() {
   return (
     <div className="App">
       <div className="page">
-        <header className="header">
-          <div className="header__logo"></div>
-        </header>
-
-        <main>
-          <section className="profile">
-            <div className="profile__info">
-              <button className="profile__picture-btn" type="button">
-                <img
-                  className="profile__picture"
-                  src={avatarLoaderGif}
-                  alt="аватарка пользователя"
-                />
-              </button>
-              <div className="profile__user">
-                <h1 className="profile__user-name">Загрузка...</h1>
-                <button className="profile__edit-btn" type="button"></button>
-                <p className="profile__user-about">Загрузка...</p>
-              </div>
-            </div>
-            <button className="profile__add-btn" type="button"></button>
-          </section>
-
-          <section className="gallery">
-            <ul className="gallery__list"></ul>
-          </section>
-        </main>
-
-        <footer className="footer">
-          <p className="footer__copyright">&copy; 2022 Mesto Russia</p>
-        </footer>
+        <Header />
+        <Main />
+        <Footer />
 
         <div className="popup" id="popup_profile">
           <div className="popup__container">
@@ -130,7 +104,9 @@ function App() {
         <div className="popup" id="popup_delete_item">
           <div className="popup__container">
             <button className="popup__close-btn" type="button"></button>
-            <h2 className="popup__title popup__title_type_delete">Вы уверены?</h2>
+            <h2 className="popup__title popup__title_type_delete">
+              Вы уверены?
+            </h2>
             <form className="popup__form" noValidate>
               <button className="popup__save-btn" type="submit">
                 Да
