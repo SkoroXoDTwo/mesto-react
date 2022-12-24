@@ -1,6 +1,7 @@
 import React from "react";
 import avatarLoaderGif from "../images/avatar-loader.gif";
 import api from "../utils/Api";
+import Card from "./Card";
 
 function Main(props) {
   const [userName, setUserName] = React.useState("Загрузка...");
@@ -65,19 +66,7 @@ function Main(props) {
       <section className="gallery">
         <ul className="gallery__list">
           {cards.map((card) => (
-            <li class="gallery__list-element" key={card._id}>
-              <article class="gallery__item">
-                <img class="gallery__photo" alt="" src={card.link} />
-                <button class="gallery__trash" type="button"></button>
-                <div class="gallery__cover">
-                  <h2 class="gallery__name">{card.name}</h2>
-                  <div class="gallery__like-container">
-                    <button class="gallery__like-btn" type="button"></button>
-                    <span class="gallery__like-count">{card.likes.length}</span>
-                  </div>
-                </div>
-              </article>
-            </li>
+            <Card key={card._id} card={card}/>
           ))}
         </ul>
       </section>
