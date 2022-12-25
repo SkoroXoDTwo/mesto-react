@@ -6,11 +6,12 @@ import ImagePopup from "./ImagePopup";
 import React from "react";
 
 function App() {
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
+    React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
     React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
-    React.useState(false);
+
   const [selectedCard, setSelectedCard] = React.useState();
 
   const handleEditProfileClick = () => {
@@ -27,14 +28,14 @@ function App() {
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
-  }
+  };
 
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setSelectedCard();
-  }
+  };
 
   return (
     <div className="App">
@@ -140,7 +141,7 @@ function App() {
         </PopupWithForm>
 
         <PopupWithForm name="delete_item" title="Вы уверены?" btnName="Да" />
-        <ImagePopup card={selectedCard} onClose={closeAllPopups}/>
+        <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       </div>
     </div>
   );
