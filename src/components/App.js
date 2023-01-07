@@ -62,19 +62,39 @@ function App() {
   const handleCardLike = (card) => {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
-    api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
-    }).catch((err) => {
-      console.log(err);
-    });;
+    api
+      .changeLikeCardStatus(card._id, isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((c) => (c._id === card._id ? newCard : c))
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleCardDelete = (card) => {
-    api.deleteCard(card._id).then((_) => {
-      setCards((state) => state.filter((c) => (c._id !== card._id)));
-    }).catch((err) => {
-      console.log(err);
-    });;
+    api
+      .deleteCard(card._id)
+      .then((_) => {
+        setCards((state) => state.filter((c) => c._id !== card._id));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleUpdateUser = (userInfo) => {
+    api
+      .pathUserInfo(userInfo)
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -92,7 +112,11 @@ function App() {
             cards={cards}
           />
           <Footer />
-          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
+          <EditProfilePopup
+            isOpen={isEditProfilePopupOpen}
+            onClose={closeAllPopups}
+            onUpdateUser={handleUpdateUser}
+          />
           <PopupWithForm
             name="gallery"
             title="Новое место"
