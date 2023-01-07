@@ -4,6 +4,7 @@ import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -97,6 +98,18 @@ function App() {
       });
   };
 
+  const handleUpdateAvatar = (avatar) => {
+    api
+      .patchAvatar(avatar)
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
@@ -116,6 +129,11 @@ function App() {
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
+          />
+          <EditAvatarPopup
+            isOpen={isEditAvatarPopupOpen}
+            onClose={closeAllPopups}
+            onUpdateAvatar={handleUpdateAvatar}
           />
           <PopupWithForm
             name="gallery"
@@ -149,27 +167,6 @@ function App() {
             <span
               className="popup__input-error"
               id="link-photo-input-error"
-            ></span>
-          </PopupWithForm>
-
-          <PopupWithForm
-            name="avatar"
-            title="Обновить аватар"
-            btnName="Сохранить"
-            isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopups}
-          >
-            <input
-              className="popup__input"
-              id="link-avatar-input"
-              type="url"
-              name="avatar-link"
-              placeholder="Ссылка на аватар"
-              required
-            />
-            <span
-              className="popup__input-error"
-              id="link-avatar-input-error"
             ></span>
           </PopupWithForm>
 
