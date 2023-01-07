@@ -13,12 +13,22 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
     api
       .getInitialUserInfo()
       .then((result) => {
         setCurrentUser(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    api
+      .getInitialCards()
+      .then((cards) => {
+        setCards(cards);
       })
       .catch((err) => {
         console.log(err);
@@ -48,6 +58,14 @@ function App() {
     setSelectedCard(null);
   };
 
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
+    api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
+      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
+    });
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
@@ -58,6 +76,8 @@ function App() {
             onAddPlace={handleAddPlaceClick}
             onEditAvatar={handleEditAvatarClick}
             onCardClick={handleCardClick}
+            handleCardLike={handleCardLike}
+            cards={cards}
           />
           <Footer />
           <PopupWithForm

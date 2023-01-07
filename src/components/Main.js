@@ -4,22 +4,8 @@ import avatarLoaderGif from "../images/avatar-loader.gif";
 import api from "../utils/Api";
 import Card from "./Card";
 
-function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
+function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, handleCardLike, cards }) {
   const currentUser = useContext(CurrentUserContext);
-
-  const [cards, setCards] = useState([]);
-  console.log(currentUser)
-
-  useEffect(() => {
-    api
-      .getInitialCards()
-      .then((cards) => {
-        setCards(cards);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   return (
     <main>
@@ -56,7 +42,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
       <section className="gallery">
         <ul className="gallery__list">
           {cards.map((card) => (
-            <Card key={card._id} card={card} onCardClick={onCardClick} />
+            <Card key={card._id} card={card} onCardClick={onCardClick} onCardLike={handleCardLike}/>
           ))}
         </ul>
       </section>
