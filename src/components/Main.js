@@ -4,7 +4,15 @@ import avatarLoaderGif from "../images/avatar-loader.gif";
 import api from "../utils/Api";
 import Card from "./Card";
 
-function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, handleCardLike, cards }) {
+function Main({
+  onEditProfile,
+  onAddPlace,
+  onEditAvatar,
+  onCardClick,
+  handleCardLike,
+  cards,
+  handleCardDelete,
+}) {
   const currentUser = useContext(CurrentUserContext);
 
   return (
@@ -23,13 +31,17 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, handleCard
             />
           </button>
           <div className="profile__user">
-            <h1 className="profile__user-name">{currentUser.name ? currentUser.name : "Загрузка..."}</h1>
+            <h1 className="profile__user-name">
+              {currentUser.name ? currentUser.name : "Загрузка..."}
+            </h1>
             <button
               className="profile__edit-btn"
               type="button"
               onClick={onEditProfile}
             ></button>
-            <p className="profile__user-about">{currentUser.about ? currentUser.about : "Загрузка..."}</p>
+            <p className="profile__user-about">
+              {currentUser.about ? currentUser.about : "Загрузка..."}
+            </p>
           </div>
         </div>
         <button
@@ -42,7 +54,13 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick, handleCard
       <section className="gallery">
         <ul className="gallery__list">
           {cards.map((card) => (
-            <Card key={card._id} card={card} onCardClick={onCardClick} onCardLike={handleCardLike}/>
+            <Card
+              key={card._id}
+              card={card}
+              onCardClick={onCardClick}
+              onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
+            />
           ))}
         </ul>
       </section>
