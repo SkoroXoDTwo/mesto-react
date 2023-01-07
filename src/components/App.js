@@ -1,9 +1,10 @@
+import { useEffect, useState } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
+import EditProfilePopup from "./EditProfilePopup";
 import ImagePopup from "./ImagePopup";
-import { useEffect, useState } from "react";
 import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
@@ -91,42 +92,7 @@ function App() {
             cards={cards}
           />
           <Footer />
-          <PopupWithForm
-            name="profile"
-            title="Редактировать профиль"
-            btnName="Сохранить"
-            isOpen={isEditProfilePopupOpen}
-            onClose={closeAllPopups}
-          >
-            <input
-              className="popup__input"
-              id="name-profile-input"
-              name="user-name"
-              placeholder="Имя"
-              minLength="2"
-              maxLength="40"
-              required
-            />
-            <span
-              className="popup__input-error"
-              id="name-profile-input-error"
-            ></span>
-
-            <input
-              className="popup__input"
-              id="about-profile-input"
-              name="user-about"
-              placeholder="Место работы"
-              minLength="2"
-              maxLength="200"
-              required
-            />
-            <span
-              className="popup__input-error"
-              id="about-profile-input-error"
-            ></span>
-          </PopupWithForm>
-
+          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
           <PopupWithForm
             name="gallery"
             title="Новое место"
