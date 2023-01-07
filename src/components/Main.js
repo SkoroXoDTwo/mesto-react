@@ -1,13 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import avatarLoaderGif from "../images/avatar-loader.gif";
 import api from "../utils/Api";
 import Card from "./Card";
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
+  const currentUser = useContext(CurrentUserContext);
+
   const [userName, setUserName] = useState("Загрузка...");
   const [userDescription, setUserDescription] = useState("Загрузка...");
   const [userAvatar, setUserAvatar] = useState(avatarLoaderGif);
   const [cards, setCards] = useState([]);
+  console.log(currentUser)
 
   useEffect(() => {
     api
