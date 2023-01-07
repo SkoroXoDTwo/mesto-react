@@ -7,24 +7,10 @@ import Card from "./Card";
 function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
   const currentUser = useContext(CurrentUserContext);
 
-  const [userName, setUserName] = useState("Загрузка...");
-  const [userDescription, setUserDescription] = useState("Загрузка...");
-  const [userAvatar, setUserAvatar] = useState(avatarLoaderGif);
   const [cards, setCards] = useState([]);
   console.log(currentUser)
 
   useEffect(() => {
-    api
-      .getInitialUserInfo()
-      .then((result) => {
-        setUserName(result.name);
-        setUserDescription(result.about);
-        setUserAvatar(result.avatar);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
     api
       .getInitialCards()
       .then((cards) => {
@@ -46,18 +32,18 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
           >
             <img
               className="profile__picture"
-              src={userAvatar}
+              src={currentUser.avatar ? currentUser.avatar : avatarLoaderGif}
               alt="аватарка пользователя"
             />
           </button>
           <div className="profile__user">
-            <h1 className="profile__user-name">{userName}</h1>
+            <h1 className="profile__user-name">{currentUser.name ? currentUser.name : "Загрузка..."}</h1>
             <button
               className="profile__edit-btn"
               type="button"
               onClick={onEditProfile}
             ></button>
-            <p className="profile__user-about">{userDescription}</p>
+            <p className="profile__user-about">{currentUser.about ? currentUser.about : "Загрузка..."}</p>
           </div>
         </div>
         <button
