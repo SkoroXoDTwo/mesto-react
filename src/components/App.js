@@ -93,7 +93,7 @@ function App() {
       });
   };
 
-  const handleUpdateUser = (userInfo, btn) => {
+  const handleUpdateUser = (userInfo) => {
     api
       .pathUserInfo(userInfo)
       .then((res) => {
