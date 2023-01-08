@@ -74,7 +74,7 @@ function App() {
       .changeLikeCardStatus(card._id, isLiked)
       .then((newCard) => {
         setCards((state) =>
-          state.map((c) => (c._id === card._id ? newCard : c))
+          state.map((stateCard) => (stateCard._id === card._id ? newCard : stateCard))
         );
       })
       .catch((err) => {
@@ -86,14 +86,14 @@ function App() {
     api
       .deleteCard(card._id)
       .then((_) => {
-        setCards((state) => state.filter((c) => c._id !== card._id));
+        setCards((state) => state.filter((stateCard) => stateCard._id !== card._id));
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const handleUpdateUser = (userInfo) => {
+  const handleUpdateUser = (userInfo, btn) => {
     api
       .pathUserInfo(userInfo)
       .then((res) => {
