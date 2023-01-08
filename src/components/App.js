@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import api from "../utils/Api";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -6,11 +8,14 @@ import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import ImagePopup from "./ImagePopup";
-import api from "../utils/Api";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import avatarLoaderGif from "../images/avatar-loader.gif";
 
 function App() {
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({
+    name: "Загрузка...",
+    about: "Загрузка...",
+    avatar: avatarLoaderGif,
+  });
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
@@ -108,7 +113,7 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

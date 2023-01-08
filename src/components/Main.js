@@ -1,7 +1,5 @@
 import { useEffect, useState, useContext } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import avatarLoaderGif from "../images/avatar-loader.gif";
-import api from "../utils/Api";
 import Card from "./Card";
 
 function Main({
@@ -26,22 +24,18 @@ function Main({
           >
             <img
               className="profile__picture"
-              src={currentUser.avatar ? currentUser.avatar : avatarLoaderGif}
+              src={currentUser.avatar}
               alt="аватарка пользователя"
             />
           </button>
           <div className="profile__user">
-            <h1 className="profile__user-name">
-              {currentUser.name ? currentUser.name : "Загрузка..."}
-            </h1>
+            <h1 className="profile__user-name">{currentUser.name}</h1>
             <button
               className="profile__edit-btn"
               type="button"
               onClick={onEditProfile}
             ></button>
-            <p className="profile__user-about">
-              {currentUser.about ? currentUser.about : "Загрузка..."}
-            </p>
+            <p className="profile__user-about">{currentUser.about}</p>
           </div>
         </div>
         <button
