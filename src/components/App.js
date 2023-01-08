@@ -7,6 +7,7 @@ import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import avatarLoaderGif from "../images/avatar-loader.gif";
 
@@ -16,6 +17,7 @@ function App() {
     about: "Загрузка...",
     avatar: avatarLoaderGif,
   });
+
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
@@ -115,6 +117,18 @@ function App() {
       });
   };
 
+  const handleAddPlaceSubmit = (card) => {
+    api
+      .postCard(card)
+      .then((res) => {
+        setCards([res, ...cards]);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
@@ -140,41 +154,11 @@ function App() {
             onClose={closeAllPopups}
             onUpdateAvatar={handleUpdateAvatar}
           />
-          <PopupWithForm
-            name="gallery"
-            title="Новое место"
-            btnName="Создать"
+          <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
-          >
-            <input
-              className="popup__input"
-              id="name-photo-input"
-              name="photo-name"
-              placeholder="Название"
-              minLength="2"
-              maxLength="30"
-              required
-            />
-            <span
-              className="popup__input-error"
-              id="name-photo-input-error"
-            ></span>
-
-            <input
-              className="popup__input"
-              id="link-photo-input"
-              type="url"
-              name="photo-link"
-              placeholder="Ссылка на картинку"
-              required
-            />
-            <span
-              className="popup__input-error"
-              id="link-photo-input-error"
-            ></span>
-          </PopupWithForm>
-
+            onAddPlace={handleAddPlaceSubmit}
+          />
           <PopupWithForm name="delete_item" title="Вы уверены?" btnName="Да" />
           <ImagePopup card={selectedCard} onClose={closeAllPopups} />
         </div>
