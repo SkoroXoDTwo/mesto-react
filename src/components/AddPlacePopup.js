@@ -1,9 +1,14 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
 
-function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
+function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
+
+  useEffect(() => {
+    setName("");
+    setLink("");
+  }, [isOpen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,7 +31,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
     <PopupWithForm
       name="gallery"
       title="Новое место"
-      btnName="Создать"
+      btnName={isLoading ? "Создание..." : "Создать"}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}

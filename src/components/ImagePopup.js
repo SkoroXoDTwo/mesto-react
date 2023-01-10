@@ -5,16 +5,8 @@ function ImagePopup({ card, onClose }) {
       id="popup_gallery_item"
     >
       <div className="popup__container popup__container_photo">
-        <button
-          className="popup__close-btn"
-          type="button"
-          onClick={onClose}
-        ></button>
-        <img
-          className="popup__photo"
-          alt=""
-          src={card && card.link}
-        />
+        <button className="popup__close-btn" type="button" onClick={onClose} />
+        <img className="popup__photo" alt={card ? card.name : 'место для фото'} src={card && card.link} />
         <h2 className="popup__photo-name">{card && card.name}</h2>
       </div>
     </div>

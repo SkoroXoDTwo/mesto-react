@@ -22,7 +22,14 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [cards, setCards] = useState([]);
+
+  const isOpen =
+    isEditAvatarPopupOpen ||
+    isEditProfilePopupOpen ||
+    isAddPlacePopupOpen ||
+    selectedCard;
 
   useEffect(() => {
     api
@@ -43,6 +50,21 @@ function App() {
         console.log(err);
       });
   }, []);
+
+  useEffect(() => {
+    const closeByEscape = (e) => {
+      if (e.key === "Escape") {
+        closeAllPopups();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("keydown", closeByEscape);
+      return () => {
+        document.removeEventListener("keydown", closeByEscape);
+      };
+    }
+  }, [isOpen]);
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
@@ -74,7 +96,9 @@ function App() {
       .changeLikeCardStatus(card._id, isLiked)
       .then((newCard) => {
         setCards((state) =>
-          state.map((stateCard) => (stateCard._id === card._id ? newCard : stateCard))
+          state.map((stateCard) =>
+            stateCard._id === card._id ? newCard : stateCard
+          )
         );
       })
       .catch((err) => {
@@ -86,7 +110,9 @@ function App() {
     api
       .deleteCard(card._id)
       .then((_) => {
-        setCards((state) => state.filter((stateCard) => stateCard._id !== card._id));
+        setCards((state) =>
+          state.filter((stateCard) => stateCard._id !== card._id)
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -94,6 +120,8 @@ function App() {
   };
 
   const handleUpdateUser = (userInfo) => {
+    setIsLoading(true);
+
     api
       .pathUserInfo(userInfo)
       .then((res) => {
@@ -102,10 +130,15 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
   const handleUpdateAvatar = (avatar) => {
+    setIsLoading(true);
+
     api
       .patchAvatar(avatar)
       .then((res) => {
@@ -114,10 +147,15 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
   const handleAddPlaceSubmit = (card) => {
+    setIsLoading(true);
+
     api
       .postCard(card)
       .then((res) => {
@@ -126,6 +164,9 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -148,16 +189,19 @@ function App() {
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
+            isLoading={isLoading}
           />
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
             onUpdateAvatar={handleUpdateAvatar}
+            isLoading={isLoading}
           />
           <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
             onAddPlace={handleAddPlaceSubmit}
+            isLoading={isLoading}
           />
           <PopupWithForm name="delete_item" title="Вы уверены?" btnName="Да" />
           <ImagePopup card={selectedCard} onClose={closeAllPopups} />
