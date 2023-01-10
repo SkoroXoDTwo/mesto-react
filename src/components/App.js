@@ -25,7 +25,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [cards, setCards] = useState([]);
 
-  const isOpen =
+  const isOpenPopup =
     isEditAvatarPopupOpen ||
     isEditProfilePopupOpen ||
     isAddPlacePopupOpen ||
@@ -58,13 +58,13 @@ function App() {
       }
     };
 
-    if (isOpen) {
+    if (isOpenPopup) {
       document.addEventListener("keydown", closeByEscape);
       return () => {
         document.removeEventListener("keydown", closeByEscape);
       };
     }
-  }, [isOpen]);
+  }, [isOpenPopup]);
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
